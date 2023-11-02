@@ -34,7 +34,7 @@ public class FileBrowser : MonoBehaviour
         _image.texture = texture;
     }
 
-    private IEnumerator OutputRoutineOpen(string url) 
+    private IEnumerator OutputRoutineOpen(string url)
     {
        UnityWebRequest www = UnityWebRequest.Get(url);
 
