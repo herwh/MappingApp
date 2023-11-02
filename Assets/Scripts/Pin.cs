@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class Pin : DraggableObject
 {
     [SerializeField] private Button _button;
-
     public PreviewViewController Preview { get; set; }
 
+    private const float HALF = 0.5f;
     private void Start()
     {
         _button.onClick.AddListener(ButtonClicked);
@@ -15,25 +15,32 @@ public class Pin : DraggableObject
     private void ButtonClicked()
     {
         Preview.gameObject.SetActive(true);
-        CheckPinPosition();
+        SetPreviewPosition();
     }
 
-    private void CheckPinPosition()
+    private void SetPreviewPosition()
     {
-        var position = _rectTransform.anchoredPosition;//позиция пина
-        var size = new Vector2(_rectTransform.rect.x, _rectTransform.rect.y);//размер пина
-        var previewSize = Preview.GetPreviewSize();//размер превью
-        var distanceToTop = _canvasHeight - position.y;//расстояние пина до верхней точки
-        var newPreviewPosition = new Vector2();
+        var position = _rectTransform.anchoredPosition; //позиция пина
+        var size = _rectTransform.rect.size; //размер пина
+        var previewSize = Preview.GetPreviewSize(); //размер превью
+        var distanceToBottom = Mathf.Abs(position.y + _canvasHeight / 2); //расстояние пина до нижней точки
+        var distanceToLeft = Mathf.Abs(position.x + _canvasWidth / 2); //расстояние пина до левой точки
+        var newPreviewPosition = position;
         
-        if (previewSize.y > distanceToTop)
+        newPreviewPosition.y -= previewSize.y * HALF + size.y * HALF;
+        newPreviewPosition.x -= previewSize.x * HALF + size.x * HALF;
+        
+        if (previewSize.y > distanceToBottom)
         {
-            newPreviewPosition.x=_rectTransform.anchoredPosition.x;
-            newPreviewPosition.y = position.y - size.y;
-            
-            Preview.SetCorrectPosition(newPreviewPosition);
+            newPreviewPosition.y += previewSize.y;
         }
 
+        if (previewSize.x > distanceToLeft)
+        {
+            newPreviewPosition.x += previewSize.x + size.x;
+        }
+
+        Preview.SetCorrectPosition(newPreviewPosition);
     }
 
     private void OnDestroy()

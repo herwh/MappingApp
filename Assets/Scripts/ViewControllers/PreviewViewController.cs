@@ -11,8 +11,8 @@ public class PreviewViewController : MonoBehaviour
 
     public Vector2 GetPreviewSize()
     {
-        Vector2 size = new Vector2(_rectTransform.rect.x, _rectTransform.rect.y);
-
+        Vector2 size = new Vector2(_rectTransform.rect.size.x, _rectTransform.rect.size.y);
+        
         return size;
     }
 
@@ -32,19 +32,17 @@ public class PreviewViewController : MonoBehaviour
 
     private void SeeMoreButtonClicked()
     {
-        //здесь сделать либо SF поле с mainMenu
-        //либо событие и через MapController
+        
     }
 
     private void EditButtonClicked()
     {
-        //открываем Edit Menu (также как и с mainMenu, скорее всего через событие и Map) 
+       
     }
 
     private void DeleteButtonClicked()
     {
-        //скорее всего через событие и Map удаляем конкретный пин
-        //+нужно будет иметь список всех пинов
+        
     }
 
     private void OnDestroy()

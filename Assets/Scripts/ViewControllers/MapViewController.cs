@@ -28,7 +28,7 @@ public class MapViewController : MonoBehaviour
 
     private void SaveAllPins()
     {
-        //проходимся по всему списку пинов и о каждом сохраняем информацию
+        
     }
 
     private void OnDestroy()
