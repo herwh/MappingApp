@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2105931964517152751}
   - component: {fileID: 5491475323309269226}
   m_Layer: 5
-  m_Name: ViewMoreButton
+  m_Name: SeeMoreButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 388659078456171514}
   - component: {fileID: 3636583883453617367}
   - component: {fileID: 156267725322379763}
-  - component: {fileID: 6902729697127186240}
+  - component: {fileID: 4041706359239259044}
   m_Layer: 5
   m_Name: PinPreview
   m_TagString: Untagged
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6902729697127186240
+--- !u!114 &4041706359239259044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,9 +421,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4195022225748442008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4166c945a98b5c409d66a7db3577ca3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a868d0740bc58a4e849709fd55cad1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _seeMoreButton: {fileID: 5491475323309269226}
+  _editButton: {fileID: 3625044208951649107}
+  _deleteButton: {fileID: 4389234571233138964}
 --- !u!1 &4901228427669208216
 GameObject:
   m_ObjectHideFlags: 0

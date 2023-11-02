@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputController : MonoBehaviour, IEndDragHandler, IDragHandler
+public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler
 {
     [SerializeField] private float _pressingTime;
 
-    private RectTransform _rectTransform;
-    private Canvas _canvas;
+    protected RectTransform _rectTransform;
+    protected float _canvasWidth;
+    protected float _canvasHeight;
+    protected Canvas _canvas;
+    
     private Vector2 _startPosition;
     private bool _pressingTimeIsCorrect;
     private float _timeHasPassed;
-
     private float _yLimitPosition;
     private float _xLimitPosition;
 
@@ -77,10 +79,10 @@ public class InputController : MonoBehaviour, IEndDragHandler, IDragHandler
 
     private void GetScreenPoints()
     {
-        var widthCanvas = Screen.width / _canvas.scaleFactor;
-        var heightCanvas = Screen.height / _canvas.scaleFactor;
+        _canvasWidth = Screen.width / _canvas.scaleFactor;
+        _canvasHeight = Screen.height / _canvas.scaleFactor;
 
-        _yLimitPosition = heightCanvas / 2;
-        _xLimitPosition = widthCanvas / 2;
+        _yLimitPosition = _canvasHeight / 2;
+        _xLimitPosition = _canvasWidth / 2;
     }
 }

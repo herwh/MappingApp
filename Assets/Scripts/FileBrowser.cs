@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class FileBrowser : MonoBehaviour
 {
     [SerializeField]private RawImage _image;
-    public void InputImageButtonOnClick()
+    public void InputImageButtonOnClick()//отрефакторить: перенести в метод открытие папки()
     {
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", "png", false);
         
@@ -18,7 +18,7 @@ public class FileBrowser : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Start()//отрефакторить: перенести в метод загрузка картинки()
     {
         var dirPath = Application.dataPath + "/SaveImages/";
         var fullPath = dirPath + "Image" + ".png"; 
@@ -34,7 +34,7 @@ public class FileBrowser : MonoBehaviour
         _image.texture = texture;
     }
 
-    private IEnumerator OutputRoutineOpen(string url) 
+    private IEnumerator OutputRoutineOpen(string url) //отрефакторить: перенести в методы сохранение картинки(), чет про веб запросы там сверху
     {
        UnityWebRequest www = UnityWebRequest.Get(url);
 

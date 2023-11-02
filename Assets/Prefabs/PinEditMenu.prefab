@@ -1799,13 +1799,14 @@ GameObject:
   - component: {fileID: 1455661003992897884}
   - component: {fileID: 3308423143856147289}
   - component: {fileID: 338107077827382612}
+  - component: {fileID: 5862050060248629105}
   m_Layer: 5
   m_Name: PinEditMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3269764539398524378
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1882,6 +1883,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 758659451895048505}
+--- !u!114 &5862050060248629105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090351309058962413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec42dbc658faad64d98f1d79fa058d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8196546234760166433
 GameObject:
   m_ObjectHideFlags: 0
