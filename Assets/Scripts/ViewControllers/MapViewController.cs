@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuViewController : MonoBehaviour
+public class MapViewController : MonoBehaviour
 {
     [SerializeField] private Button _addNewPinButton;
     [SerializeField] private Button _saveAllPinsButton;
