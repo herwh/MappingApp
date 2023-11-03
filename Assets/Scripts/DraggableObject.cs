@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler
+public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler
 {
     [SerializeField] private float _pressingTime;
 
+    public event Action BeginDrag;
+    
     protected RectTransform _rectTransform;
     protected float _canvasWidth;
     protected float _canvasHeight;
@@ -17,6 +20,12 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler
     private float _yLimitPosition;
     private float _xLimitPosition;
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        _isDragging = true;
+        if (BeginDrag != null) BeginDrag();
+    }
+    
     public void OnDrag(PointerEventData eventData)
     {
         _isDragging = true;

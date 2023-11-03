@@ -16,10 +16,13 @@ public class Pin : DraggableObject
     {
         if (_isDragging)
         {
-            return;
+            Preview.SetActive(false);
         }
-        
-        Preview.SetActive(true);
+        else
+        {
+           Preview.SetActive(true); 
+        }
+
         SetPreviewPosition();
     }
 

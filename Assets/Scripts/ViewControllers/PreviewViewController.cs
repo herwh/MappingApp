@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +8,11 @@ public class PreviewViewController : MonoBehaviour
     [SerializeField] private Button _editButton;
     [SerializeField] private Button _deleteButton;
 
+    public event Action SeeMoreClicked;
+    public event Action EditClicked;
+    public event Action DeleteClicked;
+    
     private RectTransform _rectTransform;
-    private bool _isActive;
 
     public Vector2 GetPreviewSize()
     {
@@ -22,12 +26,8 @@ public class PreviewViewController : MonoBehaviour
 
     public void SetActive(bool value)
     {
-        _isActive = value;
-
         gameObject.SetActive(value);
     }
-    
-    
 
     private void Awake()
     {
@@ -38,26 +38,19 @@ public class PreviewViewController : MonoBehaviour
         _deleteButton.onClick.AddListener(DeleteButtonClicked);
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && _isActive)
-        {
-            SetActive(false);
-        }
-    }
-
     private void SeeMoreButtonClicked()
     {
-        
+        if (SeeMoreClicked != null) SeeMoreClicked();
     }
 
     private void EditButtonClicked()
     {
-       
+        if (EditClicked != null) EditClicked();
     }
 
     private void DeleteButtonClicked()
     {
+        if (DeleteClicked != null) DeleteClicked();
        
     }
 
