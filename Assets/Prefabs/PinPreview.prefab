@@ -427,6 +427,9 @@ MonoBehaviour:
   _seeMoreButton: {fileID: 5491475323309269226}
   _editButton: {fileID: 3625044208951649107}
   _deleteButton: {fileID: 4389234571233138964}
+  _rectTransform: {fileID: 388659078456171514}
+  _title: {fileID: 3849365259975431079}
+  _image: {fileID: 8397904090190149930}
 --- !u!1 &4901228427669208216
 GameObject:
   m_ObjectHideFlags: 0

@@ -1091,6 +1091,10 @@ PrefabInstance:
       value: Map
       objectReference: {fileID: 0}
     - target: {fileID: 3347793003791760804, guid: 4a3d865b3a183a14787b56713273bff9, type: 3}
+      propertyPath: _canvas
+      value: 
+      objectReference: {fileID: 291644875}
+    - target: {fileID: 3347793003791760804, guid: 4a3d865b3a183a14787b56713273bff9, type: 3}
       propertyPath: _preview
       value: 
       objectReference: {fileID: 1661040759}

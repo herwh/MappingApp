@@ -1,4 +1,5 @@
 using System;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,48 +8,41 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler, IBe
     [SerializeField] private float _pressingTime;
 
     public event Action BeginDrag;
+    public bool IsDragging;
+    public RectTransform RectTransform;
     
-    protected RectTransform _rectTransform;
-    protected float _canvasWidth;
-    protected float _canvasHeight;
-    protected Canvas _canvas;
-    protected bool _isDragging;
-    
+    private Canvas _canvas;
     private Vector2 _startPosition;
     private bool _pressingTimeIsCorrect;
     private float _timeHasPassed;
-    private float _yLimitPosition;
-    private float _xLimitPosition;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _isDragging = true;
+        IsDragging = true;
         if (BeginDrag != null) BeginDrag();
     }
-    
+
     public void OnDrag(PointerEventData eventData)
     {
-        _isDragging = true;
-        
+        IsDragging = true;
+
         if (_pressingTimeIsCorrect)
         {
-            _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
+            RectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         CheckPinPosition();
-        _isDragging = false;
+        IsDragging = false;
     }
 
     private void Awake()
     {
         _startPosition = gameObject.transform.position;
         _canvas = FindObjectOfType<Canvas>();
-        _rectTransform = GetComponent<RectTransform>();
-        
-        GetScreenPoints();
+        RectTransform = GetComponent<RectTransform>();
     }
 
     private void Update()
@@ -81,21 +75,16 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler, IBe
 
     private void CheckPinPosition()
     {
-        Vector2 currentPinPosition = _rectTransform.anchoredPosition;
+        Vector2 currentPinPosition = RectTransform.anchoredPosition;
 
-        if (currentPinPosition.y > _yLimitPosition || currentPinPosition.y < -_yLimitPosition ||
-            currentPinPosition.x > _xLimitPosition || currentPinPosition.x < -_xLimitPosition)
+        var (canvasWidth, canvasHeight) = _canvas.GetCanvasSize();
+        var yLimitPosition = canvasHeight / 2;
+        var xLimitPosition = canvasWidth / 2;
+        
+        if (currentPinPosition.y > yLimitPosition || currentPinPosition.y < -yLimitPosition ||
+            currentPinPosition.x > xLimitPosition || currentPinPosition.x < -xLimitPosition)
         {
             gameObject.transform.position = _startPosition;
         }
-    }
-
-    private void GetScreenPoints()
-    {
-        _canvasWidth = Screen.width / _canvas.scaleFactor;
-        _canvasHeight = Screen.height / _canvas.scaleFactor;
-
-        _yLimitPosition = _canvasHeight / 2;
-        _xLimitPosition = _canvasWidth / 2;
     }
 }

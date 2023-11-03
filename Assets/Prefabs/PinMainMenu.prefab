@@ -582,3 +582,4 @@ MonoBehaviour:
   _title: {fileID: 8868780354074740222}
   _description: {fileID: 5592137470810883678}
   _image: {fileID: 452904868083742807}
+  _closeButton: {fileID: 5487797945478380590}

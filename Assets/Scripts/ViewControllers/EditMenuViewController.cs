@@ -13,7 +13,6 @@ public class EditMenuViewController : MonoBehaviour
 
     public event Action SubmitClicked=delegate {  };
     public event Action CancelClicked=delegate {  };
-    public Pin Pin;
 
     public string GetTitle()
     {
@@ -34,11 +33,13 @@ public class EditMenuViewController : MonoBehaviour
     private void SubmitButtonClicked()
     {
         SubmitClicked();
+        gameObject.SetActive(false);
     }
 
     private void CancelButtonClicked()
     {
         CancelClicked();
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
