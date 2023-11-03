@@ -8,18 +8,26 @@ public class PreviewViewController : MonoBehaviour
     [SerializeField] private Button _deleteButton;
 
     private RectTransform _rectTransform;
+    private bool _isActive;
 
     public Vector2 GetPreviewSize()
     {
-        Vector2 size = new Vector2(_rectTransform.rect.size.x, _rectTransform.rect.size.y);
-        
-        return size;
+        return new Vector2(_rectTransform.rect.size.x, _rectTransform.rect.size.y);
     }
 
     public void SetCorrectPosition(Vector2 position)
     {
         _rectTransform.anchoredPosition = new Vector2(position.x, position.y);
     }
+
+    public void SetActive(bool value)
+    {
+        _isActive = value;
+
+        gameObject.SetActive(value);
+    }
+    
+    
 
     private void Awake()
     {
@@ -28,6 +36,14 @@ public class PreviewViewController : MonoBehaviour
         _seeMoreButton.onClick.AddListener(SeeMoreButtonClicked);
         _editButton.onClick.AddListener(EditButtonClicked);
         _deleteButton.onClick.AddListener(DeleteButtonClicked);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && _isActive)
+        {
+            SetActive(false);
+        }
     }
 
     private void SeeMoreButtonClicked()
@@ -42,7 +58,7 @@ public class PreviewViewController : MonoBehaviour
 
     private void DeleteButtonClicked()
     {
-        
+       
     }
 
     private void OnDestroy()

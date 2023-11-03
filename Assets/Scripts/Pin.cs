@@ -14,7 +14,12 @@ public class Pin : DraggableObject
 
     private void ButtonClicked()
     {
-        Preview.gameObject.SetActive(true);
+        if (_isDragging)
+        {
+            return;
+        }
+        
+        Preview.SetActive(true);
         SetPreviewPosition();
     }
 

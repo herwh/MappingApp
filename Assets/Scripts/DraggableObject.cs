@@ -9,6 +9,7 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler
     protected float _canvasWidth;
     protected float _canvasHeight;
     protected Canvas _canvas;
+    protected bool _isDragging;
     
     private Vector2 _startPosition;
     private bool _pressingTimeIsCorrect;
@@ -18,6 +19,8 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        _isDragging = true;
+        
         if (_pressingTimeIsCorrect)
         {
             _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
@@ -27,6 +30,7 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         CheckPinPosition();
+        _isDragging = false;
     }
 
     private void Awake()
