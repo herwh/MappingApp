@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +14,8 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private EditMenuViewController _editMenu;
 
     private List<Pin> _pins = new();
+    private GameData _gameData;
+    private PinData _selectedPinData;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -24,9 +27,13 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
     private void Start()
     {
+        _gameData = new();
+        _gameData.pins = new();
+
         _addNewPinButton.onClick.AddListener(AddNewPin);
         _saveAllPinsButton.onClick.AddListener(SaveAllPins);
 
+        _editMenu.SubmitClicked += SavePinData;
         _preview.SeeMoreClicked += OpenMainMenu;
         _preview.EditClicked += OpenEditMenu;
         _preview.DeleteClicked += DeletePin;
@@ -34,10 +41,31 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
     private void AddNewPin()
     {
+        PinData data = new PinData();
         Pin newPin = Instantiate(_pinPrefab, transform);
+
         newPin.Preview = _preview;
+        newPin.MainMenu = _mainMenu;
         newPin.BeginDrag += SetActivePreview;
+        newPin.Selected += PinSelected;
+        newPin.SetData(data);
+
         _pins.Add(newPin);
+    }
+
+    private void PinSelected(PinData data)
+    {
+        _selectedPinData = data;
+    }
+
+    private void SavePinData()
+    {
+        var title = _editMenu.GetTitle();
+        var description = _editMenu.GetDescription();
+        //image
+
+        _selectedPinData.title = title;
+        _selectedPinData.description = description;
     }
 
     private void SetActivePreview()
@@ -48,7 +76,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     private void SaveAllPins()
     {
         Debug.Log("All pins saved");
-        
+        //проходимся по всему списку пинов и о каждом сохраняем информацию
     }
 
     private void OpenMainMenu()
@@ -64,6 +92,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     private void DeletePin()
     {
         Debug.Log("Delete action");
+        //удаляем конкретный пин и информацию о нем
     }
 
     private void OnDestroy()

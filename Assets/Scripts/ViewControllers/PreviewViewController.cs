@@ -8,10 +8,10 @@ public class PreviewViewController : MonoBehaviour
     [SerializeField] private Button _editButton;
     [SerializeField] private Button _deleteButton;
 
-    public event Action SeeMoreClicked;
-    public event Action EditClicked;
-    public event Action DeleteClicked;
-    
+    public event Action SeeMoreClicked = delegate { };
+    public event Action EditClicked = delegate { };
+    public event Action DeleteClicked = delegate { };
+
     private RectTransform _rectTransform;
 
     public Vector2 GetPreviewSize()
@@ -40,18 +40,19 @@ public class PreviewViewController : MonoBehaviour
 
     private void SeeMoreButtonClicked()
     {
-        if (SeeMoreClicked != null) SeeMoreClicked();
+        SeeMoreClicked();
     }
 
     private void EditButtonClicked()
     {
-        if (EditClicked != null) EditClicked();
+        EditClicked();
     }
 
     private void DeleteButtonClicked()
     {
-        if (DeleteClicked != null) DeleteClicked();
-       
+        DeleteClicked();
+        //скорее всего через событие и Map удаляем конкретный пин
+        //+нужно будет иметь список всех пинов
     }
 
     private void OnDestroy()

@@ -1,3 +1,5 @@
+using System;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,8 +7,18 @@ public class Pin : DraggableObject
 {
     [SerializeField] private Button _button;
     public PreviewViewController Preview { get; set; }
+    public MainMenuViewController MainMenu { get; set; }
 
+    public event Action<PinData> Selected= delegate {  };
+    
+    private PinData _data;
     private const float HALF = 0.5f;
+
+    public void SetData(PinData data)
+    {
+        _data = data;
+    }
+    
     private void Start()
     {
         _button.onClick.AddListener(ButtonClicked);
@@ -14,6 +26,8 @@ public class Pin : DraggableObject
 
     private void ButtonClicked()
     {
+        Selected(_data);
+        
         if (_isDragging)
         {
             Preview.SetActive(false);
@@ -28,11 +42,11 @@ public class Pin : DraggableObject
 
     private void SetPreviewPosition()
     {
-        var position = _rectTransform.anchoredPosition; //позиция пина
-        var size = _rectTransform.rect.size; //размер пина
-        var previewSize = Preview.GetPreviewSize(); //размер превью
-        var distanceToBottom = Mathf.Abs(position.y + _canvasHeight / 2); //расстояние пина до нижней точки
-        var distanceToLeft = Mathf.Abs(position.x + _canvasWidth / 2); //расстояние пина до левой точки
+        var position = _rectTransform.anchoredPosition; 
+        var size = _rectTransform.rect.size;
+        var previewSize = Preview.GetPreviewSize();
+        var distanceToBottom = Mathf.Abs(position.y + _canvasHeight / 2); //расстояние от пина до нижней точки
+        var distanceToLeft = Mathf.Abs(position.x + _canvasWidth / 2); //расстояние от пина до левой точки
         var newPreviewPosition = position;
         
         newPreviewPosition.y -= previewSize.y * HALF + size.y * HALF;
@@ -50,6 +64,8 @@ public class Pin : DraggableObject
 
         Preview.SetCorrectPosition(newPreviewPosition);
     }
+    
+    
 
     private void OnDestroy()
     {

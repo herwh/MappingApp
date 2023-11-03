@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 317268583716170787}
   - component: {fileID: 2213152729799381796}
   m_Layer: 5
-  m_Name: SaveButton
+  m_Name: SubmitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1895,6 +1895,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec42dbc658faad64d98f1d79fa058d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: {fileID: 778795858026157602}
+  _description: {fileID: 6672665881691400509}
+  _setImageButton: {fileID: 4092519392417435214}
+  _submitButton: {fileID: 2213152729799381796}
+  _cancelButton: {fileID: 3850491069967879238}
 --- !u!1 &8196546234760166433
 GameObject:
   m_ObjectHideFlags: 0
