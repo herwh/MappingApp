@@ -10,7 +10,7 @@ public class PreviewViewController : MonoBehaviour
     [SerializeField] private Button _deleteButton;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private TMP_Text _title;
-    [SerializeField] private Image _image;
+    [SerializeField] private RawImage _image;
     
     public event Action SeeMoreClicked = delegate { };
     public event Action EditClicked = delegate { };
@@ -26,10 +26,10 @@ public class PreviewViewController : MonoBehaviour
         _rectTransform.anchoredPosition = new Vector2(position.x, position.y);
     }
 
-    public void SetContent(string title, Sprite image)
+    public void SetContent(string title, Texture image)
     {
         _title.text = title;
-        _image.sprite = image;
+        _image.texture = image;
     }
 
     private void Awake()

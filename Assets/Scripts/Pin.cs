@@ -14,6 +14,7 @@ public class Pin : DraggableObject
     public void SetData(PinData data)
     {
         _data = data;
+        RectTransform.anchoredPosition = new Vector2(_data.pinPosition.x, _data.pinPosition.y);
     }
     
     private void Start()

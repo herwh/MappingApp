@@ -1,21 +1,19 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Image = UnityEngine.UI.Image;
 
 public class MainMenuViewController : MonoBehaviour
 {
     [SerializeField] private TMP_Text _title;
     [SerializeField] private TMP_Text _description;
-    [SerializeField] private Image _image;
+    [SerializeField] private RawImage _image;
     [SerializeField] private Button _closeButton;
     
-    public void SetContent(string title, string description, Sprite image)
+    public void SetContent(string title, string description, Texture image)
     {
         _title.text = title;
         _description.text = description;
-        _image.sprite = image;
+        _image.texture = image;
     }
 
     private void Start()
