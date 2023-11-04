@@ -15,8 +15,8 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private EditMenuViewController _editMenu;
     [SerializeField] private Canvas _canvas;
 
-    private List<PinData> _deletedPins= new();
-    private Dictionary<int, PinDataHolder> _pins = new();
+    private readonly List<PinData> _deletedPins = new();
+    private readonly Dictionary<int, Pin> _pins = new();
     private GameData _gameData;
     private PinData _selectedPinData;
 
@@ -46,10 +46,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
     private void CreatePins()
     {
-        if (_gameData.pins == null)
-        {
-            _gameData.pins = new();
-        }
+        _gameData.pins ??= new List<PinData>();
 
         foreach (var pin in _gameData.pins)
         {
@@ -73,15 +70,15 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
         newPin.Selected += PinSelected;
         newPin.SetData(data);
 
-        _pins.Add(data.id, new PinDataHolder(newPin, data));
+        _pins.Add(data.id, newPin);
     }
 
     private void PinSelected(PinData data)
     {
         _selectedPinData = data;
-        var selectedPin = _pins[data.id].Pin;
-        _selectedPinData.pinPosition = new PinPosition
-            (selectedPin.RectTransform.anchoredPosition.x, selectedPin.RectTransform.anchoredPosition.y);
+        var selectedPin = _pins[data.id];
+        var anchoredPosition = selectedPin.RectTransform.anchoredPosition;
+        _selectedPinData.pinPosition = new PinPosition(anchoredPosition.x, anchoredPosition.y);
 
         if (selectedPin.IsDragging)
         {
@@ -113,8 +110,8 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
         var size = rectTransform.rect.size;
         var previewSize = _preview.GetPreviewSize();
         var (canvasWidth, canvasHeight) = _canvas.GetCanvasSize();
-        var distanceToBottom = Mathf.Abs(position.y + canvasHeight / 2); //расстояние от пина до нижней точки
-        var distanceToLeft = Mathf.Abs(position.x + canvasWidth / 2); //расстояние от пина до левой точки
+        var distanceToBottom = Mathf.Abs(position.y + canvasHeight / 2);
+        var distanceToLeft = Mathf.Abs(position.x + canvasWidth / 2);
         var newPreviewPosition = position;
 
         newPreviewPosition.y -= previewSize.y * HALF + size.y * HALF;
@@ -144,7 +141,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
         {
             SaveLoadUtility.DeleteImage(pin.imagePath);
         }
-        
+
         SaveLoadUtility.SaveGame(_gameData);
     }
 
@@ -166,11 +163,11 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     private void DeletePin()
     {
         int pinID = _selectedPinData.id;
-        Pin pin = _pins[pinID].Pin;
+        Pin pin = _pins[pinID];
 
         Destroy(pin.gameObject);
         _preview.gameObject.SetActive(false);
-        
+
         _pins.Remove(pinID);
         _gameData.pins.Remove(_selectedPinData);
         _deletedPins.Add(_selectedPinData);
@@ -189,7 +186,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
         foreach (var pin in _pins.Values)
         {
-            pin.Pin.BeginDrag -= SetActivePreview;
+            pin.BeginDrag -= SetActivePreview;
         }
     }
 }

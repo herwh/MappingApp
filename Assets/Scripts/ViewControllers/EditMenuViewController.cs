@@ -12,12 +12,12 @@ public class EditMenuViewController : MonoBehaviour
     [SerializeField] private Button _cancelButton;
     [SerializeField] private RawImage _image;
     [SerializeField] private Texture _defaultTexture;
-    
-    public event Action SubmitClicked=delegate {  };
-    public event Action CancelClicked=delegate {  };
+
+    public event Action SubmitClicked = delegate { };
+    public event Action CancelClicked = delegate { };
 
     private FileBrowser _fileBrowser;
-    
+
     public string GetTitle()
     {
         return _title.text;
@@ -32,11 +32,11 @@ public class EditMenuViewController : MonoBehaviour
     {
         return SaveLoadUtility.SaveAsImage(_fileBrowser.GetSelectedImageData());
     }
-    
+
     private void Start()
     {
         _fileBrowser = new FileBrowser(_image);
-        
+
         _submitButton.onClick.AddListener(SubmitButtonClicked);
         _setImageButton.onClick.AddListener(SetImageButtonClicked);
         _cancelButton.onClick.AddListener(CancelButtonClicked);

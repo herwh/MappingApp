@@ -1,5 +1,4 @@
 using System.Collections;
-using System.IO;
 using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -8,15 +7,15 @@ using UnityEngine.UI;
 public class FileBrowser
 {
     private readonly RawImage _previewImage;
-    
+
     private byte[] _selectedImageData;
 
     public FileBrowser(RawImage previewImage)
     {
         _previewImage = previewImage;
     }
-    
-    public void ImageButtonClicked() //сделать ч/з подписку и отписку
+
+    public void ImageButtonClicked()
     {
         OpenFilePanel();
     }
@@ -55,7 +54,7 @@ public class FileBrowser
     private void UpdateImage(byte[] imageData)
     {
         _selectedImageData = imageData;
-        var texture = new Texture2D(3, 3); //refactor
+        var texture = new Texture2D(3, 3);
 
         texture.LoadImage(_selectedImageData);
         _previewImage.texture = texture;

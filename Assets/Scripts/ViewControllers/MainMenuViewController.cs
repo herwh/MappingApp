@@ -8,7 +8,7 @@ public class MainMenuViewController : MonoBehaviour
     [SerializeField] private TMP_Text _description;
     [SerializeField] private RawImage _image;
     [SerializeField] private Button _closeButton;
-    
+
     public void SetContent(string title, string description, Texture image)
     {
         _title.text = title;

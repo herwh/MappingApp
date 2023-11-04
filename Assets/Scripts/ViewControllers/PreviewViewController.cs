@@ -11,14 +11,15 @@ public class PreviewViewController : MonoBehaviour
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private TMP_Text _title;
     [SerializeField] private RawImage _image;
-    
+
     public event Action SeeMoreClicked = delegate { };
     public event Action EditClicked = delegate { };
     public event Action DeleteClicked = delegate { };
-    
+
     public Vector2 GetPreviewSize()
     {
-        return new Vector2(_rectTransform.rect.size.x, _rectTransform.rect.size.y);
+        var rect = _rectTransform.rect;
+        return new Vector2(rect.size.x, rect.size.y);
     }
 
     public void SetCorrectPosition(Vector2 position)

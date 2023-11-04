@@ -10,7 +10,7 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler, IBe
     public event Action BeginDrag;
     public bool IsDragging;
     public RectTransform RectTransform;
-    
+
     private Canvas _canvas;
     private Vector2 _startPosition;
     private bool _pressingTimeIsCorrect;
@@ -80,7 +80,7 @@ public class DraggableObject : MonoBehaviour, IEndDragHandler, IDragHandler, IBe
         var (canvasWidth, canvasHeight) = _canvas.GetCanvasSize();
         var yLimitPosition = canvasHeight / 2;
         var xLimitPosition = canvasWidth / 2;
-        
+
         if (currentPinPosition.y > yLimitPosition || currentPinPosition.y < -yLimitPosition ||
             currentPinPosition.x > xLimitPosition || currentPinPosition.x < -xLimitPosition)
         {

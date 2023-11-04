@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.IO;
-using DefaultNamespace;
 
 public static class SaveLoadUtility
 {

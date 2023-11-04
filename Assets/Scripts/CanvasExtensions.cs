@@ -6,8 +6,9 @@ namespace DefaultNamespace
     {
         public static (float, float) GetCanvasSize(this Canvas canvas)
         {
-            var width = Screen.width / canvas.scaleFactor;
-            var height = Screen.height / canvas.scaleFactor;
+            var scaleFactor = canvas.scaleFactor;
+            var width = Screen.width / scaleFactor;
+            var height = Screen.height / scaleFactor;
 
             return (width, height);
         }
