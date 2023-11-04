@@ -30,7 +30,7 @@ public class EditMenuViewController : MonoBehaviour
 
     public string GetImagePath()
     {
-        return _fileBrowser.SaveSelectedImage();
+        return SaveLoadUtility.SaveAsImage(_fileBrowser.GetSelectedImageData());
     }
     
     private void Start()

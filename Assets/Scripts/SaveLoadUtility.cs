@@ -2,11 +2,9 @@ using UnityEngine;
 using System.IO;
 using DefaultNamespace;
 
-public class SaveLoadManager
+public static class SaveLoadUtility
 {
-    private string _filePath;
-
-    public void SaveGame(GameData gameData)
+    public static void SaveGame(GameData gameData)
     {
         var json = JsonUtility.ToJson(gameData, true);
 
@@ -29,7 +27,7 @@ public class SaveLoadManager
         File.WriteAllText(fullPath, json);
     }
 
-    public GameData LoadGame()
+    public static GameData LoadGame()
     {
         var dirPath = Application.persistentDataPath + "/GameData";
         var fullPath = dirPath + "/gamedata.json";
@@ -63,8 +61,26 @@ public class SaveLoadManager
         return texture;
     }
 
-    private void Start()
+    public static string SaveAsImage(byte[] imageData)
     {
-        _filePath = Application.persistentDataPath + "/save.pinsave";
+        var dirPath = Application.persistentDataPath + "/SaveImages/";
+        var fullPath = $"{dirPath}{imageData.GetHashCode()}.png";
+
+        if (!Directory.Exists(dirPath))
+        {
+            Directory.CreateDirectory(dirPath);
+        }
+
+        File.WriteAllBytes(fullPath, imageData);
+
+        return fullPath;
+    }
+    
+    public static void DeleteImage(string imagePath)
+    {
+        if (File.Exists(imagePath))
+        {
+            File.Delete(imagePath);
+        }
     }
 }

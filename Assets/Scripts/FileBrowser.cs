@@ -1,7 +1,6 @@
 using System.Collections;
 using System.IO;
 using SFB;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -22,19 +21,9 @@ public class FileBrowser
         OpenFilePanel();
     }
 
-    public string SaveSelectedImage()
+    public byte[] GetSelectedImageData()
     {
-        var dirPath = Application.persistentDataPath + "/SaveImages/";
-        var fullPath = $"{dirPath}{_selectedImageData.GetHashCode()}.png";
-
-        if (!Directory.Exists(dirPath))
-        {
-            Directory.CreateDirectory(dirPath);
-        }
-
-        File.WriteAllBytes(fullPath, _selectedImageData);
-
-        return fullPath;
+        return _selectedImageData;
     }
 
     private void OpenFilePanel()

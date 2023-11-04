@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DefaultNamespace;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,11 +15,11 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private EditMenuViewController _editMenu;
     [SerializeField] private Canvas _canvas;
 
-    private List<Pin> _pins = new();
+    private List<PinData> _deletedPins= new();
+    private Dictionary<int, PinDataHolder> _pins = new();
     private GameData _gameData;
     private PinData _selectedPinData;
-    private SaveLoadManager _saveLoadManager;
-    
+
     private const float HALF = 0.5f;
 
     public void OnPointerClick(PointerEventData eventData)
@@ -31,8 +32,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
     private void Start()
     {
-        _saveLoadManager = new();
-        _gameData = _saveLoadManager.LoadGame();
+        _gameData = SaveLoadUtility.LoadGame();
         CreatePins();
 
         _addNewPinButton.onClick.AddListener(AddNewPin);
@@ -48,7 +48,7 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
     {
         if (_gameData.pins == null)
         {
-           _gameData.pins = new(); 
+            _gameData.pins = new();
         }
 
         foreach (var pin in _gameData.pins)
@@ -56,11 +56,11 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
             CreateNewPin(pin);
         }
     }
-    
+
     private void AddNewPin()
     {
         PinData data = new PinData();
-        data.id = _pins.Count;
+        data.id = GUID.Generate().GetHashCode();
         CreateNewPin(data);
         _gameData.pins.Add(data);
     }
@@ -73,28 +73,29 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
         newPin.Selected += PinSelected;
         newPin.SetData(data);
 
-        _pins.Add(newPin);
+        _pins.Add(data.id, new PinDataHolder(newPin, data));
     }
 
     private void PinSelected(PinData data)
     {
         _selectedPinData = data;
+        var selectedPin = _pins[data.id].Pin;
         _selectedPinData.pinPosition = new PinPosition
-            (_pins[data.id].RectTransform.anchoredPosition.x,_pins[data.id].RectTransform.anchoredPosition.y);
+            (selectedPin.RectTransform.anchoredPosition.x, selectedPin.RectTransform.anchoredPosition.y);
 
-        if (_pins[data.id].IsDragging)
+        if (selectedPin.IsDragging)
         {
             _preview.gameObject.SetActive(false);
         }
         else
         {
             _preview.gameObject.SetActive(true);
-            _preview.SetContent(data.title, SaveLoadManager.LoadImage(data.imagePath));
+            _preview.SetContent(data.title, SaveLoadUtility.LoadImage(data.imagePath));
         }
 
-        SetPreviewPosition(_pins[data.id].RectTransform);
+        SetPreviewPosition(selectedPin.RectTransform);
     }
-    
+
     private void SavePinData()
     {
         var title = _editMenu.GetTitle();
@@ -139,16 +140,21 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
     private void SaveAllPins()
     {
-        _saveLoadManager.SaveGame(_gameData);
+        foreach (var pin in _deletedPins)
+        {
+            SaveLoadUtility.DeleteImage(pin.imagePath);
+        }
+        
+        SaveLoadUtility.SaveGame(_gameData);
     }
 
     private void OpenMainMenu()
     {
         _mainMenu.gameObject.SetActive(true);
         _preview.gameObject.SetActive(false);
-        
-        _mainMenu.SetContent(_selectedPinData.title,_selectedPinData.description,
-            SaveLoadManager.LoadImage(_selectedPinData.imagePath));
+
+        _mainMenu.SetContent(_selectedPinData.title, _selectedPinData.description,
+            SaveLoadUtility.LoadImage(_selectedPinData.imagePath));
     }
 
     private void OpenEditMenu()
@@ -159,9 +165,17 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
 
     private void DeletePin()
     {
-        var selectedPin = _pins[_selectedPinData.id];
-        _pins.Remove(selectedPin);
-        Destroy(selectedPin.gameObject);
+        int pinID = _selectedPinData.id;
+        Pin pin = _pins[pinID].Pin;
+
+        Destroy(pin.gameObject);
+        _preview.gameObject.SetActive(false);
+        
+        _pins.Remove(pinID);
+        _gameData.pins.Remove(_selectedPinData);
+        _deletedPins.Add(_selectedPinData);
+        _selectedPinData = null;
+
     }
 
     private void OnDestroy()
@@ -173,9 +187,9 @@ public class MapViewController : MonoBehaviour, IPointerClickHandler
         _preview.EditClicked -= OpenEditMenu;
         _preview.DeleteClicked -= DeletePin;
 
-        foreach (var pin in _pins)
+        foreach (var pin in _pins.Values)
         {
-            pin.BeginDrag -= SetActivePreview;
+            pin.Pin.BeginDrag -= SetActivePreview;
         }
     }
 }
